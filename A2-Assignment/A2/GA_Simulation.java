@@ -65,16 +65,43 @@ public class GA_Simulation {
     this.n = n; 
     this.k= k;
     this.r= r;
-    this c_0 = c_0;
-    this c_max= c_max;
+    this.c_0 = c_0;
+    this.c_max = c_max;
     this.m= m;
     this.g = g;
-    
+  }
+  
 
+  /**
+   * initializes the first generation of n random individuals. 
+   * @return ArrayList of Individuals which represent the initial population
+   */
+  public ArrayList<Individual> init(){
+    ArrayList<Individual> population = new ArrayList<>();
+    for (int i=0; i < n; i++){
+      population.add(new Individual(c_0, g, rng));
+    }
+    return population;
+  }
+  public ArrayList<Individual> evolve( ArrayList<Individual> currentPop){
+    ArrayList<Individual> nextGeneration = new ArrayList<>();
+
+    //select the top k winners
+    for (int i=0; i < n; i++){
+      //randomly pick two parents from the top k
+      int parent1Index = rng.nextInt(k);
+      int parent2Index = rng.nextInt(k);
+      Individual parent1 = currentPop.get(parent1Index);
+      Individual parent2 = currentPop.get(parent2Index);
+      
+      //create offspring 
+      Individual offspring = new Individual(parent1Index, parent2Index, rng);
+      nextGeneration.add(offspring);
   }
 
+  return nextGeneration;
 
-
+  }
   public static void main(String[] args) {
     // This first block of code establishes a random seed, which will make
     // it easier to test your code. The output should remain consistent if the
