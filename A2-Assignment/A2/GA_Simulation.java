@@ -129,7 +129,7 @@ public class GA_Simulation {
   public void run(){
     init();
     rankPopulation(null);
-    describeGeneration();
+    describeGeneration(0, );
 
     for (int gen = 1; gen <=r ; gen ++){
       evolve(null);
@@ -159,6 +159,8 @@ public class GA_Simulation {
     rng = new Random(seed);
 
     // Write your main below:
+    GA_Simulation newSimulation = new GA_Simulation(100, 15, 100, 8, 20, seed, 5);
+    newSimulation.run();
 
   }
 
