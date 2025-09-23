@@ -210,7 +210,7 @@ public class GA_Simulation {
     rng = new Random(seed);
 
     // Write your main below:
-    GA_Simulation newSimulation = new GA_Simulation(100, 15, 100, 8, 20, seed, 5);
+    GA_Simulation newSimulation = new GA_Simulation(100, 80, 100, 8, 20, seed, 5);
     newSimulation.run();
 
   }
