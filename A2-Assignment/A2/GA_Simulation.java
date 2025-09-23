@@ -5,35 +5,87 @@ import java.util.Random;
 public class GA_Simulation {
 
   // Use the instructions to identify the class variables, constructors, and methods you need
-  public static Random rng; //number of individuals in each generation
-  private int n; //number of individuals in each generation
-  private int k; //number of winners allowed to reproduce
-  private int r; //number of rounds of evolution to run
-  private int c_0; //initial chromosome size
-  private int c_max; // maximum chromosome size
-  private float m;//mutation rate per gene
-  private int g;//number of states or letters per gene
+  /**
+   * seed for random number generator
+   */
+  public static Random rng; 
+  /**
+   * number of individuals in each generation
+   */
+  private int n;
+  /**
+   * number of winners allowed to reproduce
+   */
+  private int k;
+  /**
+   * number of rounds of evolution to run
+   */
+  private int r;
+  /**
+   * initial chromosome size
+   */
+  private int c_0;
+  /**
+   * maximum chromosome size
+   */
+  private int c_max;
+  /**
+   * mutation rate per gene
+   */
+  private float m;
+  /**
+   * number of states or letters per gene
+   */
+  private int g; 
 
+
+
+  /**
+   * constructor, initializes the parameters
+   * @param n number of individuals in each generation
+   * @param k number of winners per generation
+   * @param r number of rounds to run
+   * @param c_0 initial chromosome size
+   * @param c_max maximum chromosome size
+   * @param m mutation rate
+   * @param g number of possible gene status
+   * @return nothing
+   */
+
+  public GA_Simulation(int n, int k, int r, int c_0, int c_max, float m, int g){
+    this.n = n; 
+    this.k= k;
+    this.r= r;
+    this.c_0 = c_0;
+    this.c_max = c_max;
+    this.m= m;
+    this.g = g;
+  }
 
 
   // what "kth" means - 
   // The number of winners (individuals allowed to reproduce) in each generation, ***k*** (15)
 
-
   /**
    * will print statistics about current generation
    * such as fitness of fittest individual in generation, the ***k***th individual, and least fit individual
    * additionally, it will also show the actual chromosome of best the individual
-   * @param roundNumber
-   * @param bestFitness
-   * @param kthIndividual
-   * @param leastFitness
-   * @param best
-   * @return Nothing, describes and prints statistics about current generation
+   * @param roundNumber which round of evolution we're on
+   * @param pop current population
    */
-    private void describeGeneration(int roundNumber, int bestFitness, int kthFitness, int leastFitness, Individual best) {
-      printGenInfo(roundNumber, bestFitness, kthFitness, leastFitness, best);
-    }
+  private void describeGeneration(int roundNumber, ArrayList<Individual> pop) {
+    // grabs score of population's individual w/best fitness
+    int bestFitness = pop.get(0).getFitness();
+    // grabs score of population's kth fitness
+    int kthFitness = pop.get(k-1).getFitness();
+    // grabs score of population's individual w/least fitness
+    int leastFitness = pop.get(pop.size() - 1).getFitness();
+    // grabs chromosome of population's best individual
+    Individual best = pop.get(0);
+
+    printGenInfo(roundNumber, bestFitness, kthFitness, leastFitness, best);
+
+  }
 
 
   /** Provided method that prints out summary statistics for a given
@@ -54,6 +106,7 @@ public class GA_Simulation {
     System.out.println(); // blank line to match the example format
   }
 
+
   /** Provided method that sorts population by fitness score, best first
    * @param pop: ArrayList of Individuals in the current generation
    * @return: Nothing. ArrayList is sorted in place
@@ -68,28 +121,6 @@ public class GA_Simulation {
     };
     pop.sort(ranker);
   }
-
-  //constractor for GA_Simulation
-  /**
-   * initializes the parameters
-   * @param n number of individuals in each generation
-   * @param k number of winers per generation
-   * @param r number of rounds to run
-   * @param c_0 initial chromosome size
-   * @param c_max maximum chromosome size
-   * @param m mutation rate
-   * @param g number of possible gene status
-   */
-
-  public GA_Simulation(int n, int k, int r, int c_0, int c_max, float m, int m, int g){
-    this.n = n; 
-    this.k= k;
-    this.r= r;
-    this.c_0 = c_0;
-    this.c_max = c_max;
-    this.m= m;
-    this.g = g;
-  }
   
 
   /**
@@ -97,31 +128,70 @@ public class GA_Simulation {
    * @return ArrayList of Individuals which represent the initial population
    */
   public ArrayList<Individual> init(){
-    ArrayList<Individual> population = new ArrayList<>();
+    ArrayList<Individual> population = new ArrayList<>(n);
     for (int i=0; i < n; i++){
       population.add(new Individual(c_0, g, rng));
     }
     return population;
   }
-  public ArrayList<Individual> evolve( ArrayList<Individual> currentPop){
-    ArrayList<Individual> nextGeneration = new ArrayList<>();
 
-    //select the top k winners
+  
+  /**
+   * Selects each generation's winners
+   * @param currentPop
+   * @return nextGeneration , arrayList of two parents' offspring
+   */
+  public ArrayList<Individual> evolve(ArrayList<Individual> currentPop) {
+    // next generation arrayList
+    ArrayList<Individual> nextGeneration = new ArrayList<>(n);
+    // top k winners arrayList
+    ArrayList<Individual> winners = new ArrayList<>(k);
+
+    // selects each gen's top k winners
+    for (int i = 0; i < k; i++) {
+      winners.add(currentPop.get(i));
+    }
+
+    // creates next generation from randomly selected parents
     for (int i=0; i < n; i++){
-      //randomly pick two parents from the top k
-      int parent1Index = rng.nextInt(k);
-      int parent2Index = rng.nextInt(k);
-      Individual parent1 = currentPop.get(parent1Index);
-      Individual parent2 = currentPop.get(parent2Index);
+      int parent1Index = rng.nextInt(winners.size());
+      int parent2Index = rng.nextInt(winners.size());
+      Individual parent1 = winners.get(parent1Index);
+      Individual parent2 = winners.get(parent2Index);
       
-      //create offspring 
-      Individual offspring = new Individual(parent1Index, parent2Index, rng);
+      // create offspring 
+      Individual offspring = new Individual(parent1, parent2, c_max, m, 5, rng);
       nextGeneration.add(offspring);
   }
 
   return nextGeneration;
 
   }
+
+
+  /**
+   * Will run entire experiment
+   * Calls methods in order
+   * @return nothing
+   */
+  public void run(){
+    // initial population functions
+    ArrayList<Individual> population = init();
+    rankPopulation(population);
+    describeGeneration(1, population);
+
+    // new generation functions
+    for (int gen = 2; gen <=r ; gen ++){
+      population = evolve(population);
+      rankPopulation(population);
+      describeGeneration(gen, population);
+    }
+
+
+  } 
+
+
+
   public static void main(String[] args) {
     // This first block of code establishes a random seed, which will make
     // it easier to test your code. The output should remain consistent if the
@@ -140,6 +210,8 @@ public class GA_Simulation {
     rng = new Random(seed);
 
     // Write your main below:
+    GA_Simulation newSimulation = new GA_Simulation(100, 80, 100, 8, 20, seed, 5);
+    newSimulation.run();
 
   }
 

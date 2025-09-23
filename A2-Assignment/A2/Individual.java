@@ -9,8 +9,6 @@ public class Individual {
      * Each character represents a gene
      */
     ArrayList<Character> chromosome;
-    
-
     /**
      * stores the size of the individual's ArrayList, which represents its genetic data
      */
@@ -22,6 +20,7 @@ public class Individual {
      * @param c_0 The initial chromosome size
      * @param num_letters The number of letters available to choose from
      * @param rng Seed for random number generator
+     * @return nothing
      */
     public Individual(int c_0, int num_letters, Random rng) {
         // initializes chromosome ArrayList to initial size of c_0
@@ -34,12 +33,14 @@ public class Individual {
         this.size = chromosome.size();
     }
 
+
     /**
      * Second constructor to create parents and offspring chromosomes
      * @param parent1 The first parent chromosome
      * @param parent2 The second parent chromosome
      * @param c_max The maximum chromosome size
      * @param m The chances per round of mutation in each gene
+     * @return nothing
      */
     public Individual(Individual parent1, Individual parent2, int c_max, float m, int num_letters, Random rng) {
 
@@ -70,9 +71,13 @@ public class Individual {
             }
         }
 
-
-
+        // updates chromosome attribute to point to newChromosome arrayList
+        this.chromosome = newChromosome;
+        // updates chromosome size attribute to point to size of newChromosome arrayList 
+        this.size = newChromosome.size();
+    
     }
+
 
     /**
      * Provided method to choose a letter at random, in the range from A to the number of states indicated
@@ -84,6 +89,7 @@ public class Individual {
         return Character.valueOf((char)(65 + rng.nextInt(num_letters)));
     }
 
+
     /**
      * Provided method to determine whether a given gene will mutate based on the parameter ***m***
      * @param m the mutation rate
@@ -94,6 +100,7 @@ public class Individual {
         float randomNum = rng.nextInt(100) / 100f;
         return randomNum < m;
     }
+
 
     /**
      * Expresses the individual's chromosome as a String, for display purposes
@@ -108,18 +115,10 @@ public class Individual {
     }
 
 
-
-
-    public static void main(String[] args) {
-        // This code will set a random seed when you're testing Individual (i.e., running it without GA_Simulation)
-        Random rng = new Random(System.currentTimeMillis());
-
-        // You can pass rng, as defined above, to your constructors.
-        Individual i = new Individual(8, 4, rng);
-        i.toString();
-
-    }
-
+    /**
+     * computes and returns fitness of individual according to specific criteria
+     * @return fitness , fitness of individual
+     */
     public int getFitness(){
         int fitness = 0;
         int n = chromosome.size();
@@ -150,5 +149,17 @@ public class Individual {
         return fitness;
     
     }
+
+
+    public static void main(String[] args) {
+        // This code will set a random seed when you're testing Individual (i.e., running it without GA_Simulation)
+        Random rng = new Random(System.currentTimeMillis());
+
+        // You can pass rng, as defined above, to your constructors.
+        Individual i = new Individual(8, 4, rng);
+        i.toString();
+
+    }
+
 
 }
