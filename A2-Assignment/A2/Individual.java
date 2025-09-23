@@ -22,6 +22,7 @@ public class Individual {
      * @param c_0 The initial chromosome size
      * @param num_letters The number of letters available to choose from
      * @param rng Seed for random number generator
+     * @return nothing
      */
     public Individual(int c_0, int num_letters, Random rng) {
         // initializes chromosome ArrayList to initial size of c_0
@@ -40,6 +41,7 @@ public class Individual {
      * @param parent2 The second parent chromosome
      * @param c_max The maximum chromosome size
      * @param m The chances per round of mutation in each gene
+     * @return nothing
      */
     public Individual(Individual parent1, Individual parent2, int c_max, float m, int num_letters, Random rng) {
 
@@ -108,18 +110,6 @@ public class Individual {
     }
 
 
-
-
-    public static void main(String[] args) {
-        // This code will set a random seed when you're testing Individual (i.e., running it without GA_Simulation)
-        Random rng = new Random(System.currentTimeMillis());
-
-        // You can pass rng, as defined above, to your constructors.
-        Individual i = new Individual(8, 4, rng);
-        i.toString();
-
-    }
-
     public int getFitness(){
         int fitness = 0;
         int n = chromosome.size();
@@ -150,5 +140,17 @@ public class Individual {
         return fitness;
     
     }
+
+
+    public static void main(String[] args) {
+        // This code will set a random seed when you're testing Individual (i.e., running it without GA_Simulation)
+        Random rng = new Random(System.currentTimeMillis());
+
+        // You can pass rng, as defined above, to your constructors.
+        Individual i = new Individual(8, 4, rng);
+        i.toString();
+
+    }
+
 
 }
