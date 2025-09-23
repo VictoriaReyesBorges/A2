@@ -5,7 +5,14 @@ import java.util.Random;
 public class GA_Simulation {
 
   // Use the instructions to identify the class variables, constructors, and methods you need
-  public static Random rng;
+  public static Random rng; //number of individuals in each generation
+  private int n; //number of individuals in each generation
+  private int k; //number of winners allowed to reproduce
+  private int r; //number of rounds of evolution to run
+  private int c_0; //initial chromosome size
+  private int c_max; // maximum chromosome size
+  private float m;//mutation rate per gene
+  private int g;//number of states or letters per gene
 
 
 
@@ -42,6 +49,31 @@ public class GA_Simulation {
     pop.sort(ranker);
   }
 
+  //constractor for GA_Simulation
+  /**
+   * initializes the parameters
+   * @param n number of individuals in each generation
+   * @param k number of winers per generation
+   * @param r number of rounds to run
+   * @param c_0 initial chromosome size
+   * @param c_max maximum chromosome size
+   * @param m mutation rate
+   * @param g number of possible gene status
+   */
+
+  public GA_Simulation(int n, int k, int r, int c_0, int c_max, float m, int m, int g){
+    this.n = n; 
+    this.k= k;
+    this.r= r;
+    this c_0 = c_0;
+    this c_max= c_max;
+    this.m= m;
+    this.g = g;
+    
+
+  }
+
+
 
   public static void main(String[] args) {
     // This first block of code establishes a random seed, which will make
@@ -65,3 +97,4 @@ public class GA_Simulation {
   }
 
 }
+
