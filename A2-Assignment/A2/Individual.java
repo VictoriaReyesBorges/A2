@@ -66,7 +66,7 @@ public class Individual {
         
         //if the doesMutate method returns true, then replace the gene with a new random letter 
         for(int i = 0; i < newChromosome.size(); i++){
-            if (doesMutate(num_letters, rng)){
+            if (doesMutate(m, rng)){
                 newChromosome.set(i, randomLetter(num_letters, rng));
             }
         }
