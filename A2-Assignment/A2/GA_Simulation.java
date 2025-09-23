@@ -16,6 +16,26 @@ public class GA_Simulation {
 
 
 
+  // what "kth" means - 
+  // The number of winners (individuals allowed to reproduce) in each generation, ***k*** (15)
+
+
+  /**
+   * will print statistics about current generation
+   * such as fitness of fittest individual in generation, the ***k***th individual, and least fit individual
+   * additionally, it will also show the actual chromosome of best the individual
+   * @param roundNumber
+   * @param bestFitness
+   * @param kthIndividual
+   * @param leastFitness
+   * @param best
+   * @return Nothing, describes and prints statistics about current generation
+   */
+    private void describeGeneration(int roundNumber, int bestFitness, int kthFitness, int leastFitness, Individual best) {
+      printGenInfo(roundNumber, bestFitness, kthFitness, leastFitness, best);
+    }
+
+
   /** Provided method that prints out summary statistics for a given
    * generation, based on the information provided
    * @param roundNumber: Which round of evolution are we on, from 0 to n
