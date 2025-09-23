@@ -9,8 +9,6 @@ public class Individual {
      * Each character represents a gene
      */
     ArrayList<Character> chromosome;
-    
-
     /**
      * stores the size of the individual's ArrayList, which represents its genetic data
      */
@@ -34,6 +32,7 @@ public class Individual {
         // gets size of chromosome ArrayList and stores in size attribute
         this.size = chromosome.size();
     }
+
 
     /**
      * Second constructor to create parents and offspring chromosomes
@@ -72,9 +71,13 @@ public class Individual {
             }
         }
 
-
-
+        // updates chromosome attribute to point to newChromosome arrayList
+        this.chromosome = newChromosome;
+        // updates chromosome size attribute to point to size of newChromosome arrayList 
+        this.size = newChromosome.size();
+    
     }
+
 
     /**
      * Provided method to choose a letter at random, in the range from A to the number of states indicated
@@ -86,6 +89,7 @@ public class Individual {
         return Character.valueOf((char)(65 + rng.nextInt(num_letters)));
     }
 
+
     /**
      * Provided method to determine whether a given gene will mutate based on the parameter ***m***
      * @param m the mutation rate
@@ -96,6 +100,7 @@ public class Individual {
         float randomNum = rng.nextInt(100) / 100f;
         return randomNum < m;
     }
+
 
     /**
      * Expresses the individual's chromosome as a String, for display purposes
@@ -110,6 +115,10 @@ public class Individual {
     }
 
 
+    /**
+     * computes and returns fitness of individual according to specific criteria
+     * @return fitness , fitness of individual
+     */
     public int getFitness(){
         int fitness = 0;
         int n = chromosome.size();
