@@ -82,6 +82,9 @@ public class GA_Simulation {
 
     // Write your main below:
 
+    GA_Simulation newSimulation = 
+
+
   }
 
 }
