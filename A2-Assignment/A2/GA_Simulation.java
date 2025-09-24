@@ -73,13 +73,13 @@ public class GA_Simulation {
    * @param roundNumber which round of evolution we're on
    * @param pop current population
    */
-  private void describeGeneration(int roundNumber, ArrayList<Individual> pop) {
+  private void ga_describe(int roundNumber, ArrayList<Individual> pop) {
     // grabs score of population's individual w/best fitness
-    int bestFitness = pop.get(0).getFitness();
+    int bestFitness = pop.get(0).indiv_getFitness();
     // grabs score of population's kth fitness
-    int kthFitness = pop.get(k-1).getFitness();
+    int kthFitness = pop.get(k-1).indiv_getFitness();
     // grabs score of population's individual w/least fitness
-    int leastFitness = pop.get(pop.size() - 1).getFitness();
+    int leastFitness = pop.get(pop.size() - 1).indiv_getFitness();
     // grabs chromosome of population's best individual
     Individual best = pop.get(0);
 
@@ -116,7 +116,7 @@ public class GA_Simulation {
     Comparator<Individual> ranker = new Comparator<>() {
       // this order will sort higher scores at the front
       public int compare(Individual c1, Individual c2) {
-        return (int)Math.signum(c2.getFitness()-c1.getFitness());
+        return (int)Math.signum(c2.indiv_getFitness()-c1.indiv_getFitness());
       }
     };
     pop.sort(ranker);
@@ -127,7 +127,7 @@ public class GA_Simulation {
    * initializes the first generation of n random individuals. 
    * @return ArrayList of Individuals which represent the initial population
    */
-  public ArrayList<Individual> init(){
+  public ArrayList<Individual> ga_init(){
     ArrayList<Individual> population = new ArrayList<>(n);
     for (int i=0; i < n; i++){
       population.add(new Individual(c_0, g, rng));
@@ -141,7 +141,7 @@ public class GA_Simulation {
    * @param currentPop
    * @return nextGeneration , arrayList of two parents' offspring
    */
-  public ArrayList<Individual> evolve(ArrayList<Individual> currentPop) {
+  public ArrayList<Individual> ga_evolve(ArrayList<Individual> currentPop) {
     // next generation arrayList
     ArrayList<Individual> nextGeneration = new ArrayList<>(n);
     // top k winners arrayList
@@ -174,17 +174,17 @@ public class GA_Simulation {
    * Calls methods in order
    * @return nothing
    */
-  public void run(){
+  public void ga_run(){
     // initial population functions
-    ArrayList<Individual> population = init();
+    ArrayList<Individual> population = ga_init();
     rankPopulation(population);
-    describeGeneration(1, population);
+    ga_describe(1, population);
 
     // new generation functions
     for (int gen = 2; gen <=r ; gen ++){
-      population = evolve(population);
+      population = ga_evolve(population);
       rankPopulation(population);
-      describeGeneration(gen, population);
+      ga_describe(gen, population);
     }
 
 
@@ -211,7 +211,7 @@ public class GA_Simulation {
 
     // Write your main below:
     GA_Simulation newSimulation = new GA_Simulation(100, 80, 100, 8, 20, seed, 5);
-    newSimulation.run();
+    newSimulation.ga_run();
 
   }
 

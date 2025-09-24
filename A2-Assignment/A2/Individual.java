@@ -119,7 +119,7 @@ public class Individual {
      * computes and returns fitness of individual according to specific criteria
      * @return fitness , fitness of individual
      */
-    public int getFitness(){
+    public int indiv_getFitness(){
         int fitness = 0;
         int n = chromosome.size();
 
